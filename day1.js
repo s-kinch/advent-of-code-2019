@@ -1,3 +1,5 @@
+// https://adventofcode.com/2019/day/1
+
 const inputs = [100, 200, 300]
 
 const fuel = (mass) => {
