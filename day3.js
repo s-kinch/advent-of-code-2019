@@ -47,11 +47,13 @@ const gridPoints = {}
 const addToGrid = (wireName, instructions) => {
     let x = 0
     let y = 0
+    let timeStep = 0
     instructions.forEach(instruction => {
         const direction = instruction[0]
         const units = parseInt(instruction.slice(1))
 
         for (let i = 0; i < units; i++){
+            timeStep++
             switch(direction){
                 case 'R':
                     x++
@@ -67,7 +69,7 @@ const addToGrid = (wireName, instructions) => {
                     break
             }
             if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
-            gridPoints[`${x}#${y}`][wireName] = true
+            if (!gridPoints[`${x}#${y}`][wireName]) gridPoints[`${x}#${y}`][wireName] = timeStep // Don't overwrite if it passes this point again
         }
     })
 }
@@ -79,6 +81,7 @@ const intersections = Object.entries(gridPoints).filter(entry => entry[1].wire1 
 
 const manhattanDistance = (point) => Math.abs(point[0]) + Math.abs(point[1]) // manhattan distance from [0, 0]
 
+// Part 1
 const findMinManhattanDistance = (intersections) => {
     let minDistance
     intersections.forEach(intersection => {
@@ -91,8 +94,18 @@ const findMinManhattanDistance = (intersections) => {
     return minDistance
 }
 
+
+// Part 2
+const findMinTimeStep = (intersections) => {
+    let minSum
+    intersections.forEach(intersection => {
+        const {wire1: timeStep1, wire2: timeStep2} = intersection[1]
+        const intersectionTimeStepSum = timeStep1 + timeStep2
+        if (!minSum) minSum = intersectionTimeStepSum
+        else if (intersectionTimeStepSum < minSum) minSum = intersectionTimeStepSum
+    })
+    return minSum
+}
+
 console.log(findMinManhattanDistance(intersections))
-
-
-// find shortest manhattan dist to origin
-
+console.log(findMinTimeStep(intersections))
