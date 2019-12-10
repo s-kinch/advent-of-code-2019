@@ -18,37 +18,21 @@
 
 const input = [1,9,10,3,2,3,11,0,99,30,40,50]
 
-let process = (input) => { // TODO: change back to const
+const process = (input) => {
     const output = [...input]
     let halted = false
-    let currentIndex = 0
+    const len = output.length
 
-    while (!halted){
-        let newLocation
-        switch(output[currentIndex]){
-            case 99:
-                halted = true
-                break
-            case 1: 
-                const addend1 = output[output[currentIndex + 1]]
-                const addend2 = output[output[currentIndex + 2]]
-                const sum = addend1 + addend2
-                newLocation = output[currentIndex + 3]
-                output[newLocation] = sum
-                currentIndex += 4
-                break
-            case 2:
-                const multiplicand1 = output[output[currentIndex + 1]]
-                const multiplicand2 = output[output[currentIndex + 2]]
-                const product = multiplicand1 * multiplicand2
-                newLocation = output[currentIndex + 3]
-                output[newLocation] = product
-                currentIndex += 4
-                break
-            default: 
-                console.log('uh oh')
-                break
-        }        
+    for (let i = 0; !halted && i < len; i += 4){
+        const opcode = output[i]
+        if (opcode === 99) halted = true
+        else {
+            const operand1 = output[output[i + 1]]
+            const operand2 = output[output[i + 2]]
+            const operationResult = opcode === 1 ? operand1 + operand2 : operand1 * operand2
+            const newLocation = output[i + 3]
+            output[newLocation] = operationResult
+        }
     }
 
     return output
