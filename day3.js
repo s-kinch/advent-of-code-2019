@@ -50,39 +50,26 @@ const addToGrid = (wireName, instructions) => {
     instructions.forEach(instruction => {
         const direction = instruction[0]
         const units = parseInt(instruction.slice(1))
-    
-        switch(direction){
-            case 'R':
-                for (let i = 1; i < units + 1; i++){
+
+        for (let i = 0; i < units; i++){
+            switch(direction){
+                case 'R':
                     x++
-                    if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
-                    gridPoints[`${x}#${y}`][wireName] = true
-                }
-                break
-            case 'L':
-                for (let i = 1; i < units + 1; i++){
+                    break
+                case 'L':
                     x--
-                    if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
-                    gridPoints[`${x}#${y}`][wireName] = true
-                }
-                break
-            case 'U':
-                for (let i = 1; i < units + 1; i++){
+                    break
+                case 'U':
                     y++
-                    if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
-                    gridPoints[`${x}#${y}`][wireName] = true
-                }
-                break
-            case 'D':
-                for (let i = 1; i < units + 1; i++){
+                    break
+                case 'D':
                     y--
-                    if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
-                    gridPoints[`${x}#${y}`][wireName] = true
-                }
-                break
+                    break
+            }
+            if (!gridPoints[`${x}#${y}`]) gridPoints[`${x}#${y}`] = {}
+            gridPoints[`${x}#${y}`][wireName] = true
         }
     })
-
 }
 
 addToGrid('wire1', wire1Instructions)
